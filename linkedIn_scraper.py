@@ -24,7 +24,7 @@ sleep(10)
 
 filename = hashtag + "_linkedIn.csv"
 f = open(filename, "w", encoding="utf-8")
-headers = "account_name, job, date comment, reactions_count, comments_count\n"
+headers = "account_name, job, date, comment, reactions_count, comments_count\n"
 f.write(headers)
 
 new_url = url
