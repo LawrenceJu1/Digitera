@@ -62,7 +62,9 @@ for m in range(200):
                     comments_count = "N\A"
                 date = new_page.find("span",{"class":"feed-shared-actor__sub-description t-12 t-normal t-black--light"}).span.span.span[1].text
                 date_list = date.split()
-                if date_list[1] == "d":
+                if date_list[1] == "mn" or date_list[1] == "h":
+                    date = " ". join(today_list)
+                elif date_list[1] == "d":
                     day = int(today_list[2]) - int(date_list[0])
                     if day > 0:
                         date = " ".join([today_list[0],today_list[1],str(day)])
