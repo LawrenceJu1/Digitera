@@ -93,5 +93,5 @@ for m in range(200):
                 f.write(name.replace(",","|") + "," + job.replace(",","|") + "," + date.replace(",","|") + "," + text.replace(",","|") + "," + reactions_count.replace(",","")  + "," + comments_count.replace(",","") + "\n")
         except:
             continue
-    new_url = url + "&page=" + m+2
+    new_url = url + "&page=" + str(m+2)
 
