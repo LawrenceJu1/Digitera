@@ -60,11 +60,13 @@ for m in range(200):
                     comments_count = comments_count[1].text.strip()
                 except:
                     comments_count = "N\A"
-                date = new_page.find("span",{"class":"feed-shared-actor__sub-description t-12 t-normal t-black--light"}).span.span.span[1].text
+                date = new_page.find("span",{"class":"feed-shared-actor__sub-description t-12 t-normal t-black--light"}).span
+                date = date.findAll("span")
+                date = date[1].text
                 date_list = date.split()
-                if date_list[1] == "mn" or date_list[1] == "h":
+                if date_list[1].startswith("h"):
                     date = " ". join(today_list)
-                elif date_list[1] == "d":
+                elif date_list[1].startswith("d"):
                     day = int(today_list[2]) - int(date_list[0])
                     if day > 0:
                         date = " ".join([today_list[0],today_list[1],str(day)])
@@ -73,7 +75,7 @@ for m in range(200):
                             date = " ".join([str(int(today_list[0])-1), "12", str(31+day)])
                         else:
                             date = " ".join([today_list[0],str(int(today_list[1])-1),str(30+day)])
-                elif date_list[1] == "w":
+                elif date_list[1].startswith("w"):
                     day = int(today_list[2]) - int(date_list[0]) * 7
                     if day > 0:
                         date = " ".join([today_list[0],today_list[1],str(day)])
@@ -82,7 +84,7 @@ for m in range(200):
                             date = " ".join([str(int(today_list[0])-1), "12", str(31+day)])
                         else:
                             date = " ".join([today_list[0],str(int(today_list[1])-1),str(30+day)])
-                elif date_list[1] == "mo":
+                elif date_list[1].startswith("m"):
                     month = int(today_list[1]) - int(date_list[0])
                     if month > 0:
                         date = " ".join([today_list[0],str(month),today_list[2]])
@@ -90,6 +92,12 @@ for m in range(200):
                         date = " ".join([str(int(today_list[0])-1),str(12+month),today_list[2]])
                 else:
                     date = " ".join([str(int(today_list[0])-int(date_list[0])),today_list[1],today_list[2]])
+                print("Name: {}".format(name))
+                print("Job: {}".format(job))
+                print("Date: {}".format(date))
+                print("Text: {}".format(text))
+                print("# of Reactions: {}".format(reactions_count))
+                print("# of Comments: {}".format(comments_count))
                 f.write(name.replace(",","|") + "," + job.replace(",","|") + "," + date.replace(",","|") + "," + text.replace(",","|") + "," + reactions_count.replace(",","")  + "," + comments_count.replace(",","") + "\n")
         except:
             continue
