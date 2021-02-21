@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup as soup
 from time import sleep
 from datetime import datetime
 
-your_username = "jarrylu2003@gmail.com"
-your_password = "Ss332779693!"
+your_username = #your username
+your_password = #your password
 chromedriver_path = 'chromedriver.exe'
 webdriver = webdriver.Chrome(executable_path=chromedriver_path)
 
