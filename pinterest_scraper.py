@@ -11,11 +11,16 @@ webdriver = webdriver.Chrome(executable_path="chromedriver.exe")
 webdriver.get(url)
 filename = x + "_pinterest.csv"
 
-SCROLL_PAUSE_TIME = 0.5
+SCROLL_PAUSE_TIME = 2
 
 last_height = webdriver.execute_script("return document.body.scrollHeight")
 
 while True:
+    scroll_soup = BeautifulSoup(webdriver.page_source, "html.parser")
+    try:
+        close = scroll_soup.find("button", {"aria-label":"close"}).click()
+    except:
+        print("Scrolling...")
     webdriver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     sleep(SCROLL_PAUSE_TIME)
@@ -40,6 +45,8 @@ with open(file=filename, mode="w") as f:
         linked_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
         try:
             close = linked_page_soup.find("div", {"class":"full-page-signup-close-button"}).click()
+        except:
+            linked_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
         linked_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
         title = linked_page_soup.find("h1", {"data-test-id":"UnauthBestPinCardTitle"}).text.strip()
         info = linked_page_soup.findAll("span", {"class":"tBJ dyH iFc _yT pBj DrD IZT swG"})
