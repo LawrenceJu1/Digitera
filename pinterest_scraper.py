@@ -16,9 +16,8 @@ SCROLL_PAUSE_TIME = 2
 last_height = webdriver.execute_script("return document.body.scrollHeight")
 
 while True:
-    scroll_soup = BeautifulSoup(webdriver.page_source, "html.parser")
     try:
-        close = scroll_soup.find("button", {"aria-label":"close"}).click()
+        webdriver.find_element_by_class_name("KO4.MIw.QLY.jar.oy8.p6V.rDA.zI7.iyn.Hsu").click()
     except:
         print("Scrolling...")
     webdriver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -53,12 +52,12 @@ with open(file=filename, mode="w") as f:
         date = linked_page_soup.find("div", {"class":"tBJ dyH iFc yTZ B9u DrD IZT swG"}).text.strip()
         author = info[0].span.text.strip()
         pins = info[1].text.strip()
-        print("Author: {}").format(author)
-        print("Title: {}").format(title)
-        print("Date: {}").format(date)
-        print("Description: {}").format(description)
-        print("Pins: {}").format(pins)
-        f.write("{},{},{},{},{}\n").format(author.replace(",","|"), title.replace(",","|"), date.replace(",","|"), description.replace(",","|"), pins.replace(",","|"))
+        print(("Author: {}").format(author))
+        print(("Title: {}").format(title))
+        print(("Date: {}").format(date))
+        print(("Description: {}").format(description))
+        print(("Pins: {}").format(pins))
+        f.write(("{},{},{},{},{}\n").format(author.replace(",","|"), title.replace(",","|"), date.replace(",","|"), description.replace(",","|"), pins.replace(",","|")))
         
 
 
