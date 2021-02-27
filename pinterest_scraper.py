@@ -11,7 +11,7 @@ webdriver = webdriver.Chrome(executable_path="chromedriver.exe")
 webdriver.get(url)
 filename = x + "_pinterest.csv"
 
-SCROLL_PAUSE_TIME = 2
+SCROLL_PAUSE_TIME = 5
 
 last_height = webdriver.execute_script("return document.body.scrollHeight")
 
@@ -29,7 +29,7 @@ while True:
         break
     last_height = new_height
 
-with open(file=filename, mode="w") as f:
+with open(file=filename, mode="w", encoding="utf-8") as f:
     headers = "author,title,date,description,pins\n"
     f.write(headers)    
     page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
@@ -39,7 +39,6 @@ with open(file=filename, mode="w") as f:
             link = j.a["href"]
         except:
             continue
-        description = j.a.img["alt"].strip()
         webdriver.get(("https://www.Pinterest.ca{}").format(link))
         linked_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
         try:
@@ -47,17 +46,28 @@ with open(file=filename, mode="w") as f:
         except:
             linked_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
         linked_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
-        title = linked_page_soup.find("h1", {"data-test-id":"UnauthBestPinCardTitle"}).text.strip()
+        try:
+            title = linked_page_soup.find("h1", {"data-test-id":"UnauthBestPinCardTitle"}).text.strip()
+        except:
+            title = "N/A"
         info = linked_page_soup.findAll("span", {"class":"tBJ dyH iFc _yT pBj DrD IZT swG"})
-        date = linked_page_soup.find("div", {"class":"tBJ dyH iFc yTZ B9u DrD IZT swG"}).text.strip()
+        try:
+            description = linked_page_soup.find("div", {"class":"Hvp Jea sLG zI7 iyn Hsu"}).h2.text.strip()
+        except:
+            description = "N/A"
+        try:
+            date = linked_page_soup.find("div", {"class":"tBJ dyH iFc yTZ B9u DrD IZT swG"}).text.strip()
+        except:
+            date = "N/A"
         author = info[0].span.text.strip()
-        pins = info[1].text.strip()
+        try:
+            pins = info[1].text.strip()
+        except:
+            pins = "0"
         print(("Author: {}").format(author))
         print(("Title: {}").format(title))
         print(("Date: {}").format(date))
         print(("Description: {}").format(description))
         print(("Pins: {}").format(pins))
-        f.write(("{},{},{},{},{}\n").format(author.replace(",","|"), title.replace(",","|"), date.replace(",","|"), description.replace(",","|"), pins.replace(",","|")))
+        f.write(author.replace(",","|") + "," + title.replace(",","|") + "," + date.replace(",","|") + "," + description.replace(",","|") + "," + pins.replace(",","|") + "\n")
         
-
-
