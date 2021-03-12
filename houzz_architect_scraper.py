@@ -48,9 +48,17 @@ with open("houzz_architect.csv", "w") as f:
                 location = link_page_soup.find("div", {"class":"hz-profile-header__location"})
                 location = location.text.strip()
             except:
-                location = link_page_soup.find("span", {"class":"sc-hOqqkJ IconRow___StyledText-sc-1f6s35j-1 hpjEqp bkjkrD"})
-                location = location.span
-                location = location.text.strip()
+                try:
+                    loc = link_page_soup.findAll("span", {"class":"sc-hOqqkJ IconRow___StyledText-sc-1f6s35j-1 hpjEqp bkjkrD"})
+                    for location in loc:
+                        try:
+                            location = location.span
+                            location = location.text.strip()
+                            break
+                        except:
+                            continue
+                except:
+                    location = "N\A"
             location = location.replace(",","|")
 
             #writes the data into the .csv file
