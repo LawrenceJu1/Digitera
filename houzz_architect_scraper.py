@@ -27,9 +27,10 @@ with open("houzz_architect.csv", "w") as f:
             link_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
             try:
                 name = link_page_soup.find("h1", {"class":"hz-profile-header__name"})
+                name = name.text.strip()
             except:
                 name = link_page_soup.find("h1", {"class":"sc-hOqqkJ gUdSZH"})
-            name = name.text.strip()
+                name = name.text.strip()
             name = name.replace(",","|")
             
             #gets the website and location of each architect
@@ -42,12 +43,14 @@ with open("houzz_architect.csv", "w") as f:
                     website = website["href"]
                 except:
                     website = "N\A"
+            
             try:
                 location = link_page_soup.find("div", {"class":"hz-profile-header__location"})
+                location = location.text.strip()
             except:
                 location = link_page_soup.find("span", {"class":"sc-hOqqkJ IconRow___StyledText-sc-1f6s35j-1 hpjEqp bkjkrD"})
                 location = location.span
-            location = location.text.strip()
+                location = location.text.strip()
             location = location.replace(",","|")
 
             #writes the data into the .csv file
