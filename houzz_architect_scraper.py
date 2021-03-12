@@ -31,9 +31,13 @@ with open("houzz_architect.csv", "w") as f:
             
             #gets the website and location of each architect
             info = link_page_soup.findAll("div", {"class":"sc-jHVexB IconRow___StyledBox-sc-1f6s35j-0 jxFOsp ilrzEg"})
-            website = info[0].find("a", {"class":"sc-euMpXR giuHJB sc-hOqqkJ fGKsN hui-link"})
-            website = website["href"]
+            try:
+                website = info[0].find("a", {"class":"sc-euMpXR giuHJB sc-hOqqkJ fGKsN hui-link"})
+                website = website["href"]
+            except:
+                website = "N\A"
             location = info[1].span.span.text.strip()
+            location = location.replace(",","|")
 
             #writes the data into the .csv file
             f.write(f"{name},{website},{location}\n")
