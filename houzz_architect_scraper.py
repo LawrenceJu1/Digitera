@@ -25,7 +25,10 @@ with open("houzz_architect.csv", "w") as f:
             
             #gets the name of each architect
             link_page_soup = BeautifulSoup(webdriver.page_source, "html.parser")
-            name = link_page_soup.find("h1", {"class":"hz-profile-header__name"})
+            try:
+                name = link_page_soup.find("h1", {"class":"hz-profile-header__name"})
+            except:
+                name = link_page_soup.find("h1", {"class":"sc-hOqqkJ gUdSZH"})
             name = name.text.strip()
             name = name.replace(",","|")
             
@@ -34,8 +37,16 @@ with open("houzz_architect.csv", "w") as f:
                 website = link_page_soup.find("a", {"data-compid":"Profile_Website"})
                 website = website["href"]
             except:
-                website = "N\A"
-            location = link_page_soup.find("div", {"class":"hz-profile-header__location"})
+                try:
+                    website = link_page_soup.find("a", {"class":"sc-euMpXR giuHJB sc-hOqqkJ fGKsN hui-link"})
+                    website = website["href"]
+                except:
+                    website = "N\A"
+            try:
+                location = link_page_soup.find("div", {"class":"hz-profile-header__location"})
+            except:
+                location = link_page_soup.find("span", {"class":"sc-hOqqkJ IconRow___StyledText-sc-1f6s35j-1 hpjEqp bkjkrD"})
+                location = location.span
             location = location.text.strip()
             location = location.replace(",","|")
 
