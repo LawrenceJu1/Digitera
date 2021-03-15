@@ -33,17 +33,22 @@ with open("houzz_architect.csv", "w") as f:
                 name = name.text.strip()
             name = name.replace(",","|")
             
-            #gets the website and location of each architect
+            #gets the website of each architect
             try:
                 website = link_page_soup.find("a", {"data-compid":"Profile_Website"})
                 website = website["href"]
+                webdriver.get(website)
+                website = webdriver.current_url
             except:
                 try:
                     website = link_page_soup.find("a", {"class":"sc-euMpXR giuHJB sc-hOqqkJ fGKsN hui-link"})
                     website = website["href"]
+                    webdriver.get(website)
+                    website = webdriver.current_url
                 except:
                     website = "N\A"
-            
+
+            #gets the location of each architect
             try:
                 location = link_page_soup.find("div", {"class":"hz-profile-header__location"})
                 location = location.text.strip()
